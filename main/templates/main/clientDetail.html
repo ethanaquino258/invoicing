@@ -1,0 +1,14 @@
+<h1>{{client.name}}</h1>
+<div>
+  <p>{{client.email}}</p>
+  <p>{{client.address}}</p>
+</div>
+
+
+<button onclick="location.href = '{% url 'main:newInvoice' client.id %}'">New Invoice</button>
+
+{% for invoice in invoices %}
+<li><a>{{invoice.number}}</a></li>
+{% endfor %}
+
+<button id='delete'>Delete Client</button>

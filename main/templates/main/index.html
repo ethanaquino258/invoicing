@@ -1,0 +1,5 @@
+{% for client in clients %}
+<button onclick="location.href = '{% url 'main:clientDetail' client.id %}'">{{client.name}}</button>
+{% endfor %}
+
+<button onclick="location.href ='newClient/'">Create New client</button>
