@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<body>
+  <h1>Create New Invoice</h1>
+
+  <form method='POST'>
+    {% csrf_token %}
+    <div id='title-container'>
+      <label>Title</label>
+      <input type='text' class='textInput' name='title'>
+    </div>
+
+    <div id='dates-container'>
+      <label>Date</label>
+      <input type='date' class='dateInput' name='date'>
+      <label>Due Date</label>
+      <input type='date' class='dateInput' name='due_date'>
+    </div>
+
+    <h3>Billed Items</h3>
+    <div id='billed-items-container'>
+      <template id='billed-item-template'>
+        <div id='billed-item-0'>
+          <label>Description</label>
+          <input type='text' class='textInput' name='description'>
+          <label>Unit Price</label>
+          <input type='text' class='numberInput' name='unit_price'>
+          <label>Quantity</label>
+          <input type='text' class='numberInput' name='quantity'>
+          <label>Total Price</label>
+          <input type='text' type='numberInput' name='total_price'>
+          <button id='add-note' onclick="addNote(this); return false;">Add a Note</button>
+        </div>
+      </template>
+      <button id='add-billed-item' onclick="duplicate(this); return false;">Add a Billed
+        Item</button>
+    </div>
+
+
+
+    <h3>Totals</h3>
+    <div id='money-container'>
+      <label>Subtotal</label>
+      <input type='text' class='numberInput' name='subtotal'>
+      <label>Total</label>
+      <input type='text' class='numberInput' name='total'>
+      <label>Amount Paid</label>
+      <input type='text' class='numberInput' name='amount_paid'>
+      <label>Balance Due</label>
+      <input type='text' class='numberInput' name='balance_due'>
+    </div>
+    <button type='submit'>Submit</button>
+  </form>
+
+
+</body>
+
+<script>
+  var i = 0;
+  function duplicate(elem) {
+
+    var template = document.getElementById('billed-item-template');
+
+    var clone = template.content.firstElementChild.cloneNode(true);
+
+    clone.id = 'billed-item-' + ++i;
+
+    inputs = clone.querySelectorAll('input');
+    for (ind = 0; ind < inputs.length; ind++) {
+      var name = inputs[ind].name;
+      console.log(name);
+      inputs[ind].name = name + i;
+    }
+    elem.parentNode.appendChild(clone);
+  }
+
+  function addNote(elem) {
+    console.log(elem.parentElement)
+    var elNumber = elem.parentNode.id.substr(elem.parentNode.id.length - 1);
+    noteDiv = document.createElement('div');
+    noteDiv.id = 'note-container-' + elNumber;
+
+    noteInput = document.createElement('input');
+    noteInput.type = 'text';
+    noteInput.class = 'textInput';
+    noteInput.name = 'note_description' + elNumber;
+
+    noteDiv.appendChild(noteInput);
+
+    elem.parentNode.appendChild(noteDiv);
+  }
+</script>
