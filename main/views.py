@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from .models import *
-
+from .forms import *
 # Create your views here.
 
 
@@ -36,4 +36,12 @@ def clientDetail(request, client_id):
 
 
 def newInvoice(request, client_id):
-    return render(request, 'main/newInvoice.html')
+    if request.method == 'POST':
+        client = Client.objects.get(pk=client_id)
+        print(request.POST)
+        # r = request.POST
+        # invoice = Invoice(title=r.get('title'), date=, due_date=, subtotal=, total=, amount_paid=, balance_due=, client=client)
+        # invoice.save()
+
+    else:
+        return render(request, 'main/newInvoice.html', {'form': InvoiceForm})
